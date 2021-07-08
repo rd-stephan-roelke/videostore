@@ -1,12 +1,9 @@
 package imaginary.videostore;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Customer {
 
     private final String name;
-    private final List<Rental> rentals = new ArrayList<>();
+    private final Rentals rentals = new Rentals();
 
     public Customer(String name) {
         this.name = name;
@@ -21,24 +18,29 @@ public class Customer {
     }
 
     public String statement() {
-        var totalAmount = 0.0;
-        var frequentRenterPoints = 0;
+        //header
         var result = new StringBuilder(String.format("Rental Record for %s\n", getName()));
-
-        for(Rental each: rentals) {
-            frequentRenterPoints += each.calculateFrequentRenterPoints();
-
-            double thisAmount = each.calculateAmount();
-            // show figures for this rental
-            result.append(String.format("\t%s\t%s\n", each.getMovie().getTitle(), thisAmount));
-            totalAmount += thisAmount;
-        }
-
-        // add footer lines
-        result.append(String.format("Amount owed is %s\n", totalAmount));
-        result.append(String.format("You earned %s frequent renter points", frequentRenterPoints));
+        //movies
+        rentals.forEach(rental -> result.append(String.format("\t%s\t%s\n", rental.getMovie().getTitle(), rental.calculateAmount())));
+        // footer
+        result.append(String.format("Amount owed is %s\n", rentals.calculateTotalAmount()));
+        result.append(String.format("You earned %s frequent renter points", rentals.calculateFrequentRenterPoints()));
 
         return result.toString();
     }
 
+    public String htmlOutput() {
+        //header
+        var result = new StringBuilder(String.format("<h1>Rental Record for %s</h1>", getName()));
+        //movies
+        result.append("<table>");
+        result.append("<tr><th>Movie</th><th>Amount</th></tr>");
+        rentals.forEach(rental -> result.append(String.format("<tr><td>%s</td><td>%s</td></tr>", rental.getMovie().getTitle(), rental.calculateAmount())));
+        result.append("</table>");
+        // footer
+        result.append(String.format("<p>Amount owed is %s</p>", rentals.calculateTotalAmount()));
+        result.append(String.format("<p>You earned %s frequent renter points</p>", rentals.calculateFrequentRenterPoints()));
+
+        return result.toString();
+    }
 }

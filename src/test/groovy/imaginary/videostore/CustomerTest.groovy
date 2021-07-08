@@ -177,4 +177,19 @@ class CustomerTest extends Specification {
                 'Amount owed is 19.0\n' +
                 'You earned 5 frequent renter points'
     }
+
+    def 'htmloutput some rentals'() {
+        given:
+        customer.addRental(new Rental(regularMovie1, 2))
+        customer.addRental(new Rental(regularMovie2, 3))
+        customer.addRental(new Rental(newReleaseMovie, 3))
+        customer.addRental(new Rental(childrenMovie, 5))
+
+        when:
+        def result = customer.htmlOutput()
+
+        then:
+
+        result ==  this.getClass().getResource("/rentals_html_output.html").getText('UTF-8')
+    }
 }
