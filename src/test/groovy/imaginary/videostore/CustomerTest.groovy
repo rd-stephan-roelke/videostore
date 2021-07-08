@@ -1,6 +1,8 @@
 package imaginary.videostore
 
-
+import imaginary.videostore.movie.ChildrensMovie
+import imaginary.videostore.movie.NewReleaseMovie
+import imaginary.videostore.movie.RegularMovie
 import spock.lang.Specification
 import spock.lang.Subject
 
@@ -9,10 +11,10 @@ class CustomerTest extends Specification {
     @Subject
     private Customer customer
 
-    def regularMovie1 = new Movie('Regular 1', Movie.REGULAR)
-    def regularMovie2 = new Movie('Regular 2', Movie.REGULAR)
-    def childrenMovie = new Movie('Children', Movie.CHILDRENS)
-    def newReleaseMovie = new Movie('New Release', Movie.NEW_RELEASE)
+    def regularMovie1 = new RegularMovie('Regular 1')
+    def regularMovie2 = new RegularMovie('Regular 2')
+    def childrenMovie = new ChildrensMovie('Children')
+    def newReleaseMovie = new NewReleaseMovie('New Release')
 
     def setup() {
         customer = new Customer('Customer')

@@ -1,5 +1,7 @@
 package imaginary.videostore;
 
+import imaginary.videostore.movie.Movie;
+
 public class Rental {
 
     private final Movie movie;
@@ -10,12 +12,15 @@ public class Rental {
         this.daysRented = daysRented;
     }
 
-    public int getDaysRented() {
-        return daysRented;
-    }
-
     public Movie getMovie() {
         return movie;
     }
 
+    public double calculateAmount() {
+        return movie.calculateAmount(daysRented);
+    }
+
+    public int calculateFrequentRenterPoints() {
+        return 1 + movie.calculateAdditionalFrequentRenterPoints(daysRented);
+    }
 }
